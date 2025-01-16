@@ -8,138 +8,160 @@
       body {
         margin: 0;
         font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
+        background-color: #ffffff; /* Plain white background */
         display: flex;
         align-items: center;
         justify-content: center;
         height: 100vh;
+        overflow: hidden;
       }
-  
+
       #main-container {
         background: #fff;
         width: 960px;
-        height: 540px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        border-radius: 8px;
-        overflow-y: auto;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        height: 600px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        border-radius: 12px;
+        overflow: hidden;
         display: flex;
         flex-direction: column;
       }
-  
+
       header {
         background-color: #222;
         color: #fff;
         text-align: center;
-        padding: 20px;
-        border-radius: 8px 8px 0 0;
+        padding: 15px;
+        border-radius: 12px 12px 0 0;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       }
-  
+
       header h1 {
         margin: 0;
         font-size: 2em;
+        text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
       }
-  
+
       #intro {
-        padding: 20px 40px;
-        flex: 1; /* Allow the content section to take the remaining height */
-        overflow-y: auto;
+        padding: 20px 30px;
+        flex: 1;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        background: #f8f9fa;
       }
-  
+
       #intro h2 {
-        font-size: 1.8em;
+        font-size: 1.6em;
         color: #0066cc;
-        margin-bottom: 10px;
-      }
-  
-      #intro p {
-        font-size: 1.1em;
-        line-height: 1.6;
-        margin: 10px 0;
-        color: #333;
-      }
-  
-      #intro ul {
-        margin: 10px 0 20px;
-        padding-left: 20px;
-      }
-  
-      #intro ul li {
-        font-size: 1.1em;
         margin-bottom: 8px;
+        position: relative;
+      }
+
+      #intro h2::before {
+        content: "🎯";
+        position: absolute;
+        left: -30px;
+        font-size: 1.4em;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+
+      #intro p {
+        font-size: 1em;
+        line-height: 1.4;
+        margin: 8px 0;
         color: #333;
       }
-  
+
+      #intro ul {
+        margin: 10px 0 15px;
+        padding-left: 20px;
+        list-style: none;
+      }
+
+      #intro ul li {
+        font-size: 1em;
+        margin-bottom: 6px;
+        color: #333;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      #intro ul li::before {
+        content: "✓";
+        color: #00b894;
+        font-size: 1.2em;
+      }
+
       #intro button {
         align-self: center;
-        padding: 12px 24px;
-        font-size: 1.2em;
+        padding: 10px 20px;
+        font-size: 1.1em;
         cursor: pointer;
-        background-color: #0066cc;
+        background-color: #0066cc; /* Solid button color */
         color: #fff;
         border: none;
-        border-radius: 4px;
-        transition: background-color 0.3s ease;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease, background-color 0.3s ease;
       }
-  
+
       #intro button:hover {
-        background-color: #005bb5;
+        transform: scale(1.05);
+        background-color: #005bb5; /* Darker shade for hover */
       }
-  
+
       footer {
         text-align: center;
-        background-color: #f4f4f4;
+        background-color: #222;
+        color: #fff;
         padding: 10px;
-        font-size: 0.9em;
-        color: #666;
-        border-top: 1px solid #ddd;
-        border-radius: 0 0 8px 8px;
+        font-size: 0.8em;
+        border-radius: 0 0 12px 12px;
+        box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
       }
     </style>
   </head>
-  
+
   <body>
     <div id="main-container">
       <header>
         <h1>Generative AI: Learn & Test</h1>
       </header>
-  
+
       <div id="intro">
         <div>
           <h2>Welcome to the Generative AI Quiz!</h2>
           <p>
-            Test your knowledge of Generative AI and learn more about how it creates new content,
-            from text to images, music, and more. Get ready to dive into the world of innovation!
+            Test your knowledge of Generative AI and learn how it creates new content, from text to images, music, and more.
+            Dive into the world of innovation and creativity!
           </p>
-  
+
           <h2>Quiz Rules & Instructions</h2>
-          <p>Before you start, here are a few things to keep in mind:</p>
+          <p>Here are a few things to keep in mind:</p>
           <ul>
-            <li>The quiz consists of <strong>10 multiple-choice questions</strong>.</li>
-            <li>Each question has <strong>four options</strong>. Only one is correct.</li>
-            <li>You'll get <strong>immediate feedback</strong> after selecting an answer.</li>
-            <li><strong>Green</strong> indicates a correct answer, and <strong>red</strong> indicates an incorrect answer.</li>
-            <li>There's no time limit, so take your time!</li>
-            <li>Your final score will be displayed at the end of the quiz.</li>
+            <li><strong>10 multiple-choice questions</strong>will test your knowledge.</li>
+            <li>Each question has<strong>4 options.</strong> Only one is correct.</li>
+            <li>You’ll get<strong>instant feedback</strong>after answering.</li>
+            <li>
+              Correct answers are highlighted in<strong style="color: #4caf50;">green,</strong> and incorrect ones in
+              <strong style="color: #f44336;">red.</strong>
+            </li>
+            <li>No time limit—take your time!</li>
+            <li>Your final score will appear at the end.</li>
           </ul>
-          <p>Are you ready to test your knowledge? Let's get started!</p>
+          <p>Are you ready to begin? Let’s go!</p>
         </div>
-  
+
         <button id="start-quiz-btn">Start the Quiz</button>
       </div>
-  
-    <script>
-      document.getElementById("start-quiz-btn").addEventListener("click", function () {
-        // Redirect to the quiz page
-        window.location.href = "qns.html"; // Replace with the actual path to your quiz
-      });
-    </script>
-  </body>
 
-  
+      <script>
+        document.getElementById("start-quiz-btn").addEventListener("click", function () {
+          window.location.href = "qns.html"; // Replace with the actual path to your quiz
+        });
+      </script>
+  </body>
+</html>
