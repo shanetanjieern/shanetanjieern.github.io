@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Generative AI Quiz</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    #main-container {
+      background: #fff;
+      width: 960px;
+      height: 540px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      overflow-y: auto;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    header {
+      background-color: #222;
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+      border-radius: 8px 8px 0 0;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2em;
+    }
+
+    #quiz-container {
+      padding: 20px;
+      text-align: center;
+    }
+
+    #progress-bar {
+      width: 100%;
+      height: 20px;
+      background: #ddd;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+
+    #progress {
+      width: 0;
+      height: 100%;
+      background: #4caf50;
+      transition: width 0.3s;
+    }
+
+    .question {
+      margin-bottom: 20px;
+      font-size: 1.2em;
+      font-weight: bold;
+    }
+
+    .question img {
+      width: 100px;
+      height: auto;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .options button {
+      display: block;
+      margin: 10px auto;
+      padding: 10px 20px;
+      font-size: 1em;
+      cursor: pointer;
+      border: none;
+      border-radius: 4px;
+      background-color: #f4f4f4;
+      transition: background-color 0.3s;
+    }
+
+    .options button:hover {
+      background-color: #e0e0e0;
+    }
+
+    .options button.correct {
+      background-color: #4caf50 !important;
+      color: #fff;
+    }
+
+    .options button.incorrect {
+      background-color: #f44336 !important;
+      color: #fff;
+    }
+
+    #comment {
+      margin-top: 20px;
+      font-size: 1.1em;
+      color: #333;
+    }
+
+    #score {
+      font-size: 1.4em;
+      margin-top: 20px;
+      text-align: center;
+      display: none;
+    }
+
+    #score h2 {
+      margin-bottom: 20px;
+      color: #222;
+    }
+
+    #score button {
+      margin-top: 20px;
+      padding: 12px 24px;
+      font-size: 1.2em;
+      cursor: pointer;
+      background-color: #0066cc;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+    }
+
+    #score button:hover {
+      background-color: #005bb5;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="main-container">
+    <header>
+      <h1>Generative AI Quiz</h1>
+    </header>
+
+    <div id="quiz-container">
+      <div id="progress-bar">
+        <div id="progress"></div>
+      </div>
+      <div id="quiz">
+        <p id="question-number"></p>
+        <div class="question"></div>
+        <div class="options"></div>
+        <div id="comment"></div>
+      </div>
+      <div id="score">
+        <h2 id="result-title"></h2>
+        <p id="result-message"></p>
+        <p>You scored <span id="final-score"></span> out of <span id="total-questions"></span>.</p>
+        <button id="restart-btn">Restart Quiz</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      { question: "What is Generative AI designed to do?", img: "qn1.jpg", options: ["Translate languages", "Analyze data", "Predict weather", "Generate new content"], answer: 3, comment: "Generative AI creates new data like text, images, and more." },
+      { question: "Which is an example of Generative AI?", img: "qn2.jpg", options: ["Excel", "Apache", "GPT", "Windows"], answer: 2, comment: "GPT is a famous Generative AI model." },
+      { question: "What does Generative AI learn from?", img: "qn3.jpg", options: ["Random inputs", "Existing data", "User commands", "Nothing"], answer: 1, comment: "It learns patterns from existing data." },
+      { question: "What is NOT a use of Generative AI?", img: "qn4.jpg", options: ["Creating art", "Analyzing spreadsheets", "Generating text", "Composing music"], answer: 1, comment: "Analyzing spreadsheets isn't a typical use." },
+      { question: "Which language model powers GPT?", img: "qn5.jpg", options: ["SVM", "Transformer", "RNN", "CNN"], answer: 1, comment: "GPT uses the Transformer architecture." },
+      { question: "Can Generative AI create videos?", img: "qn6.jpg", options: ["Rarely", "Only with supervision", "No", "Yes"], answer: 3, comment: "Yes, Generative AI can create videos." },
+      { question: "Is Generative AI deterministic?", img: "qn7.jpg", options: ["Yes", "Sometimes", "No", "Never"], answer: 2, comment: "It is probabilistic, not deterministic." },
+      { question: "What is a GAN?", img: "qn8.jpg", options: ["Generative Adversarial Network", "Graphical AI Node", "General AI Network", "None"], answer: 0, comment: "GAN stands for Generative Adversarial Network." },
+      { question: "Which AI is generative?", img: "qn9.jpg", options: ["MySQL", "Excel", "DALL-E", "Photoshop"], answer: 2, comment: "DALL-E generates new images." },
+      { question: "Can AI write novels?", img: "qn10.jpg", options: ["Only short stories", "Yes", "Only technical content", "No"], answer: 1, comment: "Yes, AI can write novels." }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+
+    function loadQuestion() {
+      const question = questions[currentQuestion];
+      $("#question-number").text(`Question ${currentQuestion + 1}/${questions.length}`);
+      $(".question").html(`<img src="${question.img}" alt="Question Image" /><p>${question.question}</p>`);
+      $(".options").empty();
+      question.options.forEach((option, index) => {
+        $(".options").append(`<button data-index="${index}">${option}</button>`);
+      });
+      $("#comment").text("");
+    }
+
+    function updateProgressBar() {
+      const progress = ((currentQuestion) / questions.length) * 100;
+      $("#progress").css("width", `${progress}%`);
+    }
+
+    function showScore() {
+      $("#quiz").hide();
+      $("#score").show();
+      const successThreshold = questions.length * 0.7;
+      if (score >= successThreshold) {
+        $("#result-title").text("Woohoo! Well done!");
+        $("#result-message").text("You nailed it! Your knowledge of Generative AI is impressive.");
+      } else {
+        $("#result-title").text("Boo! Better luck next time!");
+        $("#result-message").text("Don't worry, keep learning, and try again!");
+      }
+      $("#final-score").text(score);
+      $("#total-questions").text(questions.length);
+    }
+
+    $(document).ready(function () {
+      $("#quiz-container").show();
+      loadQuestion();
+      updateProgressBar();
+
+      $(".options").on("click", "button", function () {
+        $(".options button").attr("disabled", true);
+        const selected = $(this).data("index");
+        const question = questions[currentQuestion];
+        if (selected === question.answer) {
+          score++;
+          $(this).addClass("correct");
+        } else {
+          $(this).addClass("incorrect");
+          $(".options button").filter(function () {
+            return $(this).data("index") === question.answer;
+          }).addClass("correct");
+        }
+
+        $("#comment").text(question.comment);
+
+        setTimeout(function () {
+          currentQuestion++;
+          if (currentQuestion < questions.length) {
+            loadQuestion();
+            updateProgressBar();
+          } else {
+            updateProgressBar();
+            showScore();
+          }
+        }, 2000);
+      });
+
+      $(document).on("click", "#restart-btn", function () {
+        currentQuestion = 0;
+        score = 0;
+        $("#score").hide();
+        $("#quiz").show();
+        loadQuestion();
+        updateProgressBar();
+      });
+    });
+  </script>
+</body>
+</html>
